@@ -1,4 +1,3 @@
-import { createRenderController } from './render.js';
 import { installFeatures } from './features.js';
 
 /* ============================================================
@@ -21,7 +20,6 @@ const SW = () => stage.clientWidth, SH = () => stage.clientHeight;
 const opt = {cut:2.8, furn:true, labels:true, night:false, hour:10, mode:'orbit'};
 
 let inited = false, active = false, raf = 0, anim = null, fly = null;
-let renderTools;
 let renderer, labelRenderer, scene, camera, orbit, walkCtl, hemi, sun, ground, glassMat, wallMat, capMat, frameMat;
 let archFloor, archUp, furnG, labelG, lampG, colliders = [], selKey = null, selHelper = null;
 let sigArch = '', sigFurn = '', sigLabels = '', grow = 1, furnGrow = 1;
@@ -1149,7 +1147,6 @@ const clock = new THREE.Clock();
 function startLoop(){ if (!raf){ clock.getDelta(); raf = requestAnimationFrame(loop); } }
 function loop(){
   raf = requestAnimationFrame(loop);
-  if(renderTools?.running)return;
   const dt = Math.min(clock.getDelta(), .05), now = performance.now();
   if (anim){ const t = clamp01((now - anim.t0)/anim.dur); anim.fn(t); if (t >= 1){ const r = anim.res; anim = null; r(); } }
   else if (fly){ const t = clamp01((now - fly.t0)/fly.dur); camTween(fly.A, fly.B, ease(t)); if (t >= 1) fly = null; }
@@ -1174,11 +1171,6 @@ function geometryChanged(){
   if(inited){const size=sceneSize();Object.assign(sun.shadow.camera,{left:-size,right:size,top:size,bottom:-size,far:Math.max(100,size*4)});sun.shadow.camera.updateProjectionMatrix();sun.position.set(size,size*1.3,size*.6);}
   sigArch=sigFurn=sigLabels='';if(inited){sync(true);if(active)flyTo(isoWhole());}
 }
-renderTools=createRenderController({
- get renderer(){return renderer;},get scene(){return scene;},get camera(){return camera;},width:SW,height:SH,night:()=>opt.night,
- canRender:()=>inited&&active&&!anim&&!fly&&opt.mode==='orbit',
- lock(){const enabled=orbit.enabled;orbit.enabled=false;return()=>{orbit.enabled=enabled;clock.getDelta();};}
-});
-window.View3D = {enter, exit, relang, geometryChanged, renderTools, sync:() => sync(), shot, groundAt, flyToRoom:id => active && !anim && flyToRoom(id), walking:() => active && opt.mode === 'walk',capture:()=>{if(!inited||!active)throw Error('请先进入 3D 场景');return renderer.domElement.toDataURL('image/png');}};
+window.View3D = {enter, exit, relang, geometryChanged, sync:() => sync(), shot, groundAt, flyToRoom:id => active && !anim && flyToRoom(id), walking:() => active && opt.mode === 'walk',capture:()=>{if(!inited||!active)throw Error('请先进入 3D 场景');return renderer.domElement.toDataURL('image/png');}};
 geometryChanged();
 installFeatures(window.ModelEditor);

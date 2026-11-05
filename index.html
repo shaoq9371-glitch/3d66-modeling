@@ -280,7 +280,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn chip" data-lang="en" title="English">EN</button>
     </div>
     <button class="btn" id="fullscreen" title="全屏 (Shift+F)" style="border:1px solid var(--line);background:#fff">⛶ 全屏</button>
-    <div class="grp"><button class="btn" id="openCad">导入 CAD</button><button class="btn" id="openRender">效果图渲染</button><button class="btn" id="openPoster">海报／展板</button></div>
+    <div class="grp"><button class="btn" id="openCad">导入 CAD</button></div>
     <details class="menu"><summary class="btn" data-en="File ▾">文件 ▾</summary>
       <div class="menu-pop">
         <button class="btn" id="exportPng" data-en="Export image">导出图片</button>
@@ -1508,7 +1508,7 @@ function validatePayload(s){
 }
 window.ModelEditor={
   get plan(){return currentPlan;}, get snapshot(){return structuredClone(state);},
-  capture:capturePlan, toast, async show3D(){await setView('3d');},
+  toast,
   apply(s){validatePayload(s);const before=snap(); state=fixState(structuredClone(s)); ui.sel=null; window.View3D?.geometryChanged();commit(before);renderAll();fitView();}
 };
 function setLang(l){

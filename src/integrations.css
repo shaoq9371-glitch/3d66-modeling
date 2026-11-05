@@ -16,12 +16,11 @@
 .integration-dialog .warnings p:last-child{margin-bottom:0}
 .integration-dialog .error{color:#a72d21;white-space:pre-wrap}
 .integration-dialog output{display:block;margin:12px 0;min-height:22px;font-variant-numeric:tabular-nums}
-.integration-dialog canvas,.integration-dialog img{max-width:100%;height:auto}
+.integration-dialog canvas{max-width:100%;height:auto}
 .integration-dialog .cad-preview{background:#f2eee7;width:100%;max-height:260px;display:block;margin-top:12px}
 .integration-dialog .btn{min-height:36px}
 .integration-dialog button:focus-visible,.integration-dialog input:focus-visible,.integration-dialog select:focus-visible{outline:2px solid #2f5d62;outline-offset:3px}
 .integration-dialog button[disabled]{opacity:.5;cursor:default}
-.render-preview{margin-top:12px;border-radius:4px;display:block}
 .integration-dialog [hidden]{display:none!important}
 @media(max-width:640px){.integration-dialog .fields{grid-template-columns:1fr}.integration-dialog .dialog-body{padding:16px}.integration-dialog header{padding:12px 16px}.integration-dialog .btn{min-height:44px}.integration-dialog th,.integration-dialog td{font-size:13px;padding:6px 3px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;transition-duration:.001ms!important}}

@@ -12,11 +12,11 @@ web
 
 ## Product Purpose
 
-在浏览器中编辑 2D 与 3D 空间方案，导入 CAD 数据、渲染效果图，并将方案图片用于海报或展板排版。
+在浏览器中编辑 2D 与 3D 空间方案，导入 CAD 数据并调整空间布置。
 
 ## Capabilities and Constraints
 
-保留原版家具布置、测量、漫游与材料操作。CAD 接入 ezdxf，使用可明确指定的单位和图层转换；不能承诺任意 PDF、DWG 或无分层 CAD 自动生成准确房间。效果图采用 three-gpu-pathtracer 0.0.23 与 Three.js r163 的 WebGL2 实现。海报编辑复用 vue-fabric-editor 的开源核心插件，提供文字、图片、形状、图层及文件导出。
+保留原版家具布置、测量、漫游与材料操作。CAD 接入 ezdxf，使用可明确指定的单位和图层转换；不能承诺任意 PDF、DWG 或无分层 CAD 自动生成准确房间。
 
 ## Brand Commitments
 

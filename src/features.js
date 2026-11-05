@@ -1,5 +1,3 @@
-import { putAsset } from './media-store.js';
-
 const $=selector=>document.querySelector(selector);
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function dialog(id,title,body){
@@ -14,12 +12,6 @@ async function callCad(endpoint,file,options){
   let result;try{result=await response.json();}catch{throw Error('CAD 服务尚未启动，请先运行本地启动脚本。');}
   if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'图纸处理失败，请检查单位与图层。');return result;
 }
-async function openPoster(data){
-  const popup=window.open('/poster.html','_blank');
-  if(!popup)throw Error('浏览器拦截了新窗口，请允许弹出窗口后重试。');
-  if(data){try{const id=await putAsset(data);popup.location.replace('/poster.html?asset='+encodeURIComponent(id));}catch(error){popup.close();throw error;}}
-}
-
 export function installFeatures(editor){
   let cadFile=null,converted=null;
   const cad=dialog('cadDialog','导入 CAD 平面',`
@@ -63,21 +55,4 @@ export function installFeatures(editor){
   };
   $('#cadApply').onclick=()=>{try{editor.apply(converted);cad.close();editor.toast('CAD 已导入，可用撤销恢复上一方案。');}catch(error){$('#cadStatus').textContent=error.message;}};
 
-  const render=dialog('renderDialog','效果图渲染',`
-    <p>以当前 3D 鸟瞰视角进行路径追踪。建议先调整灯光、材质和全高／剖切墙，再开始渲染。采样越多，噪点越少、耗时越长。</p>
-    <div class="fields"><label>图片宽度<select id="renderWidth"><option value="480">480 px · 草稿</option><option value="960" selected>960 px · 预览</option><option value="1920">1920 px</option><option value="2560">2560 px</option></select></label><label>采样次数<select id="renderSamples"><option value="4">4 · 草稿预览</option><option value="16" selected>16 · 快速</option><option value="64">64 · 标准</option><option value="256">256 · 精细</option></select></label></div>
-    <output id="renderStatus" aria-live="polite">使用 WebGL2 路径追踪，不需要模型 API 密钥。</output><img id="renderPreview" class="render-preview" alt="渲染完成的效果图" hidden>
-    <div class="dialog-actions"><button class="btn" id="cancelRender" disabled>取消渲染</button><button class="btn" id="saveRender" disabled>下载 PNG</button><button class="btn" id="renderToPoster" disabled>送到海报／展板</button><button class="btn primary" id="startRender">开始渲染</button></div>`);
-  const controller=()=>window.View3D?.renderTools;
-  function busy(value){$('#startRender').disabled=value;$('#cancelRender').disabled=!value;$('#renderWidth').disabled=value;$('#renderSamples').disabled=value;}
-  $('#openRender').onclick=async()=>{try{await editor.show3D();render.showModal();}catch(error){editor.toast(error.message);}};
-  $('#startRender').onclick=async()=>{
-    busy(true);$('#saveRender').disabled=$('#renderToPoster').disabled=true;$('#renderPreview').hidden=true;
-    try{await controller().start({width:Number($('#renderWidth').value),samples:Number($('#renderSamples').value),onStatus:message=>{$('#renderStatus').textContent=message;if(message.startsWith('渲染失败'))busy(false);},onComplete:result=>{busy(false);$('#renderPreview').src=result.data;$('#renderPreview').hidden=false;$('#saveRender').disabled=$('#renderToPoster').disabled=false;}});}catch(error){busy(false);$('#renderStatus').textContent=error.message;}
-  };
-  $('#cancelRender').onclick=()=>{controller()?.cancel();busy(false);};
-  render.addEventListener('close',()=>{if(controller()?.running)controller().cancel();busy(false);});
-  $('#saveRender').onclick=()=>{const a=document.createElement('a');a.href=controller().image();a.download='3d66-效果图.png';a.click();};
-  $('#renderToPoster').onclick=()=>openPoster(controller().image()).catch(e=>editor.toast(e.message));
-  $('#openPoster').onclick=()=>{const popup=window.open('/poster.html','_blank');if(!popup)return editor.toast('请允许打开新窗口后重试。');editor.capture().then(async data=>{const id=await putAsset(data);popup.location.replace('/poster.html?asset='+encodeURIComponent(id));}).catch(error=>{popup.close();editor.toast(error.message);});};
 }
