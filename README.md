@@ -1,4 +1,15 @@
-# 户型装修设计
+# 3d66建模
+
+基于 [wy51ai/floorplan-3d](https://github.com/wy51ai/floorplan-3d) 建立的独立二次开发项目。
+
+当前版本保留原项目功能和界面，作为后续开发的起点。原作者署名、MIT 许可证及原始提交历史保留。
+
+- 项目维护账号：`shaoq9371-glitch`。
+- 起点提交：`730ec0923a018fdf38b4687c5ef385c7dcac451f`。
+- [原始项目说明](README.upstream.md)。
+- [本地二次开发说明](二次开发说明.md)。
+
+以下为当前工具的使用说明。
 
 中文 | [English](README.en.md)
 
