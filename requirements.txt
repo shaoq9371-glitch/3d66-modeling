@@ -1,0 +1,5 @@
+ezdxf==1.4.5
+fastapi==0.162.0
+uvicorn==0.54.0
+python-multipart==0.0.33
+shapely==2.2.0

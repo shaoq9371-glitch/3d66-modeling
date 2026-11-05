@@ -1,0 +1,30 @@
+{
+  "name": "3d66-modeling",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:e2e": "node tests/browser.mjs"
+  },
+  "dependencies": {
+    "@vueuse/core": "10.11.1",
+    "events": "3.3.0",
+    "fabric": "5.3.0",
+    "hotkeys-js": "3.13.9",
+    "lodash-es": "4.17.21",
+    "tapable": "2.2.1",
+    "three": "0.163.0",
+    "three-gpu-pathtracer": "0.0.23",
+    "three-mesh-bvh": "0.7.8",
+    "uuid": "8.3.2",
+    "vue": "3.5.13",
+    "xatlas-web": "0.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "vite": "6.4.1"
+  }
+}

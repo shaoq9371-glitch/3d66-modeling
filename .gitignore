@@ -19,6 +19,11 @@ build/
 npm-debug.log*
 .cache/
 tmp/
+.venv/
+__pycache__/
+.pytest_cache/
+test-results/
+.taste-skill/
 
 # 环境变量
 .env
